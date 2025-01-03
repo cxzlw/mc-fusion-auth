@@ -4,4 +4,82 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.115.6",
+    "hishel>=0.1.1",
+    "httpx[http2]>=0.28.1",
+    "pydantic>=2.10.4",
+    "ruff>=0.8.4",
+    "uvicorn[standard]>=0.34.0",
+    "watchfiles>=1.0.3",
+]
+
+[tool.ruff.lint]
+preview = true
+exclude = ["alembic"]
+select = [
+    "E",
+    "F",
+    "B",
+    "SIM",
+    "I",
+    "UP",
+    "RUF",
+    "C90",
+    "N",
+    "ANN",
+    "FA",
+    "A",
+    "C4",
+    "DTZ",
+    "ICN",
+    "ISC",
+    "LOG",
+    "INP",
+    "PIE",
+    "Q",
+    "RET",
+    "SLF",
+    "SIM",
+    "TID",
+    "PTH",
+    "TD",
+    "PL",
+    "FAST",
+    "FLY",
+    "PERF",
+    "FURB",
+    "ASYNC",
+]
+
+ignore = [
+    "W191",
+    "E117",
+    "E111",
+    "E114",
+    "D206",
+    "D300",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "COM812",
+    "COM819",
+    "ISC001",
+    "ISC002",
+    "E501",
+    "E701",
+    "E203",
+    "D202",
+    "D203",
+    "D213",
+    "PLR0913",
+    "PLR0917",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Explicit re-exports is fine in __init__.py, still a code smell elsewhere.
+"__init__.py" = ["PLC0414"]
+
+[tool.pyright]
+exclude = ["alembic"]
