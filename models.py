@@ -1,7 +1,7 @@
 from typing import overload
 from urllib.parse import urljoin
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 from utils.client import get_client
 
@@ -79,3 +79,27 @@ class YggdrasilServerModel(BaseModel):
             api_server=api_server,
             skin_domains=skin_domains,
         )
+
+
+class YggdrasilMetaResponse(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    meta: dict = Field(default_factory=dict)
+    skin_domains: list[str] = Field(
+        default_factory=list, serialization_alias="skinDomains"
+    )
+    signature_public_key: str = Field(
+        serialization_alias="signxaturePublickey"
+    )  # 故意的拼写错误, 在实现之前不会修复
+
+
+class ProfilePropertyModel(BaseModel):
+    name: str
+    value: str
+    signature: str | None = None
+
+
+class ProfileModel(BaseModel):
+    id: str
+    name: str
+    properties: list[ProfilePropertyModel] | None = None

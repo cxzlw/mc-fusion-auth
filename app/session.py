@@ -5,24 +5,12 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, Response
 from httpx import AsyncClient
-from pydantic import BaseModel
 
 from app import shared
+from models import ProfileModel
 from utils.client import get_async_client
 
 session = APIRouter()
-
-
-class ProfilePropertyModel(BaseModel):
-    name: str
-    value: str
-    signature: str | None = None
-
-
-class ProfileModel(BaseModel):
-    id: str
-    name: str
-    properties: list[ProfilePropertyModel] | None = None
 
 
 @session.get(
