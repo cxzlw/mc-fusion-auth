@@ -12,10 +12,14 @@ servers: list[YggdrasilServerModel] = [
     ),
     YggdrasilServerModel(
         priority=1,
+        server="https://skin.cxzlw.top",
+    ),
+    YggdrasilServerModel(
+        priority=2,
         server="https://littleskin.cn",
     ),
     YggdrasilServerModel(
-        priority=1,
+        priority=2,
         server="https://mcskin.com.cn",
     ),
 ]
