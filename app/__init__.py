@@ -3,9 +3,9 @@ from typing import Annotated
 
 from fastapi import Depends, FastAPI
 from httpx import AsyncClient
-from pydantic import BaseModel, ConfigDict, Field
 
 from app import shared as shared
+from models import YggdrasilMetaResponse
 from utils.client import get_async_client
 
 from .api import api
@@ -17,16 +17,6 @@ app = FastAPI()
 app.include_router(auth, prefix="/authserver")
 app.include_router(session, prefix="/sessionserver")
 app.include_router(api, prefix="/api")
-
-
-class YggdrasilMetaResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    meta: dict = Field(default_factory=dict)
-    skin_domains: list[str] = Field(
-        default_factory=list, serialization_alias="skinDomains"
-    )
-    signature_public_key: str = Field(serialization_alias="signaturePublickey")
 
 
 @app.get("/")

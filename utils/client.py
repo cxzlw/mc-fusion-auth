@@ -1,5 +1,3 @@
-import logging
-
 from hishel import (
     HEURISTICALLY_CACHEABLE_STATUS_CODES,
     AsyncCacheClient,
@@ -9,13 +7,6 @@ from hishel import (
     FileStorage,
 )
 from httpx import AsyncClient, Client, Timeout
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logging.getLogger("hishel.controller").setLevel(logging.DEBUG)
-
 
 storage, async_storage = (
     FileStorage(
