@@ -18,8 +18,8 @@ servers: list[YggdrasilServerModel] = [
         priority=2,
         server="https://littleskin.cn",
     ),
-    YggdrasilServerModel(
-        priority=2,
-        server="https://mcskin.com.cn",
-    ),
+    # YggdrasilServerModel(  # Removed support as it's using uuid3
+    #     priority=2,
+    #     server="https://mcskin.com.cn",
+    # ),
 ]
