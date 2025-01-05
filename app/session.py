@@ -3,7 +3,8 @@ from http import HTTPStatus
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter, Depends, Query
+from fastapi.exceptions import HTTPException
 from httpx import AsyncClient
 
 from app import shared
@@ -15,7 +16,6 @@ session = APIRouter()
 
 @session.get(
     "/session/minecraft/hasJoined",
-    response_model=ProfileModel,
     responses={204: {"model": None}},
 )
 async def has_joined(
@@ -23,7 +23,7 @@ async def has_joined(
     username: str,
     server_id: Annotated[str, Query(alias="serverId")],
     ip: str | None = None,
-) -> ProfileModel | Response:
+) -> ProfileModel:
     resps = await asyncio.gather(
         *(
             client.get(
@@ -39,22 +39,20 @@ async def has_joined(
     for resp in resps:
         print(resp.status_code)
         if resp.status_code == HTTPStatus.OK:
-            return resp.json()
+            return ProfileModel(**resp.json())
 
-    # print(res)
-    return Response(status_code=HTTPStatus.NO_CONTENT)
+    raise HTTPException(status_code=HTTPStatus.NO_CONTENT)
 
 
 @session.get(
     "/session/minecraft/profile/{uuid}",
-    response_model=ProfileModel,
-    responses={200: {"model": ProfileModel}, 204: {"model": None}},
+    responses={204: {"model": None}},
 )
 async def get_profile(
     client: Annotated[AsyncClient, Depends(get_async_client)],
     uuid: UUID,
     unsigned: bool = True,
-) -> ProfileModel | Response:
+) -> ProfileModel:
     resps = await asyncio.gather(
         *(
             client.get(
@@ -67,6 +65,6 @@ async def get_profile(
 
     for resp in resps:
         if resp.status_code == HTTPStatus.OK:
-            return resp.json()
+            return ProfileModel(**resp.json())
 
-    return Response(status_code=HTTPStatus.NO_CONTENT)
+    raise HTTPException(status_code=HTTPStatus.NO_CONTENT)
