@@ -1,3 +1,4 @@
+from enum import StrEnum
 from typing import overload
 from urllib.parse import urljoin
 
@@ -103,3 +104,9 @@ class ProfileModel(BaseModel):
     id: str
     name: str
     properties: list[ProfilePropertyModel] | None = None
+
+
+class BlockingMode(StrEnum):
+    BLOCKING = "blocking"
+    NON_BLOCKING = "non-blocking"
+    SEMI_BLOCKING = "semi-blocking"

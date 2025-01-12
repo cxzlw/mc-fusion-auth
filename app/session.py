@@ -10,6 +10,7 @@ from httpx import AsyncClient
 from app import shared
 from models import ProfileModel
 from utils.client import get_async_client
+from utils.skin_restorer import restore_profile
 
 session = APIRouter()
 
@@ -39,7 +40,9 @@ async def has_joined(
     for resp in resps:
         print(resp.status_code)
         if resp.status_code == HTTPStatus.OK:
-            return ProfileModel(**resp.json())
+            return await restore_profile(
+                ProfileModel(**resp.json()), blocking_mode=shared.blocking_mode
+            )
 
     raise HTTPException(status_code=HTTPStatus.NO_CONTENT)
 
@@ -65,6 +68,8 @@ async def get_profile(
 
     for resp in resps:
         if resp.status_code == HTTPStatus.OK:
-            return ProfileModel(**resp.json())
+            return await restore_profile(
+                ProfileModel(**resp.json()), blocking_mode=shared.blocking_mode
+            )
 
     raise HTTPException(status_code=HTTPStatus.NO_CONTENT)

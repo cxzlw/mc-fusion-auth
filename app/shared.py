@@ -1,4 +1,6 @@
-from models import YggdrasilServerModel
+from aiocache.factory import Cache
+
+from models import BlockingMode, YggdrasilServerModel
 
 servers: list[YggdrasilServerModel] = [
     YggdrasilServerModel(
@@ -23,3 +25,7 @@ servers: list[YggdrasilServerModel] = [
     #     server="https://mcskin.com.cn",
     # ),
 ]
+
+mineskin_token: str = ""
+blocking_mode: BlockingMode = BlockingMode.NON_BLOCKING
+cache = Cache()
